@@ -20,3 +20,8 @@ $ dexsearch -b sbt decline
 ```
 
 ## Demo
+
+https://user-images.githubusercontent.com/4439335/211099995-074eff36-3135-41c0-9f78-6f0e97e19a7b.mp4
+
+
+
