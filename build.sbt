@@ -2,8 +2,8 @@ import org.scalajs.linker.interface.StandardConfig
 enablePlugins(ScalaJSPlugin)
 enablePlugins(NpmPackagePlugin)
 
-name := "dex"
-version := "0.1.2"
+name := "dexsearch"
+version := "0.1.3"
 
 scalaVersion := "3.2.1" // or any other Scala version >= 2.11.12
 
