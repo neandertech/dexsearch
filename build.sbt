@@ -3,6 +3,8 @@ enablePlugins(ScalaJSPlugin)
 enablePlugins(NpmPackagePlugin)
 
 name := "dex"
+version := "0.1.1"
+
 scalaVersion := "3.2.1" // or any other Scala version >= 2.11.12
 
 libraryDependencies ++= Seq(
