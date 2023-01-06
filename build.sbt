@@ -25,3 +25,9 @@ npmPackageDescription := "CLI that uses the Scaladex API to quickly search libra
 npmPackageName := "dexsearch"
 npmPackageNpmrcScope := Some("neandertech")
 npmPackageBinaryEnable := true
+npmPackageDependencies ++= {
+  Seq(
+    "node-fetch" -> "^2.6.1",
+    "prompts" -> "^2.4.2"
+  )
+}
