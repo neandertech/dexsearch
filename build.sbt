@@ -22,3 +22,4 @@ npmPackageAuthor := "Neandertech"
 npmPackageDescription := "CLI that uses the Scaladex API to quickly search libraries and copy them to the clipboard"
 npmPackageName := "dexsearch"
 npmPackageNpmrcScope := Some("neandertech")
+npmPackageBinaryEnable := true
