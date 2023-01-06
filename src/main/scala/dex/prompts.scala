@@ -33,7 +33,7 @@ def promptProject(project: js.Array[Project]): IO[Project] = {
   val projectQuestion = new js.Object {
     val `type` = "autocomplete"
     val name = "project"
-    val message = "Select a project"
+    val message = "From which repo ?"
     val choices = project.map { p =>
       new js.Object {
         val title = s"${p.repository} from ${p.organization}"
@@ -52,7 +52,7 @@ def promptModules(project: Project): IO[js.Array[String]] = {
   val moduleQuestion = new js.Object {
     val `type` = "autocompleteMultiselect"
     val name = "modules"
-    val message = "Select modules"
+    val message = "Which modules ?"
     val choices = project.artifacts.map { artifact =>
       new js.Object {
         val title = artifact
@@ -71,7 +71,7 @@ def promptVersion(project: ProjectDetails): IO[String] = {
   val versionQuestion = new js.Object {
     val `type` = "autocomplete"
     val name = "version"
-    val message = "Select version"
+    val message = "Which version ?"
     val choices = project.versions.map { version =>
       new js.Object {
         val title = version
@@ -90,7 +90,7 @@ def promptBuildTool: IO[BuildTool] = {
   val versionQuestion = new js.Object {
     val `type` = "select"
     val name = "buildTool"
-    val message = "Select build tool"
+    val message = "Which build tool ?"
     val choices = BuildTool.values.map { bt =>
       new js.Object {
         val title = bt.toString()
