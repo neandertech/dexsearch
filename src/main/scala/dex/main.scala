@@ -24,7 +24,7 @@ object Main
         details <- scaladex.project(project.organization, project.repository)
         version <- promptVersion(details)
         buildTool <- maybeBuildTool.map(IO.pure(_)).getOrElse(promptBuildTool)
-        content = format(buildTool, project.organization, modules, version)
+        content = format(buildTool, details.groupId, modules, version)
         _ <- copyToClipboard(content)
         _ <- IO.println(
           "Dependencies were copied to your clipboard, ready to paste"
@@ -35,16 +35,18 @@ object Main
 
   def format(
       buildTool: BuildTool,
-      org: String,
+      groupId: String,
       modules: js.Array[String],
       version: String
   ): List[String] = modules.toList
     .map { case module =>
       buildTool match
-        case BuildTool.SBT      => s""""$org" %% "$module" % "$version""""
-        case BuildTool.Mill     => s"""ivy"$org::$module:$version""""
-        case BuildTool.Bleep    => s"""$org::$module:$version"""
-        case BuildTool.ScalaCLI => s"""//> using lib "$org::$module:$version""""
-        case BuildTool.Ammonite => s"""import $$ivy.`$org::$module:$version`"""
+        case BuildTool.SBT   => s""""$groupId" %% "$module" % "$version""""
+        case BuildTool.Mill  => s"""ivy"$groupId::$module:$version""""
+        case BuildTool.Bleep => s"""$groupId::$module:$version"""
+        case BuildTool.ScalaCLI =>
+          s"""//> using lib "$groupId::$module:$version""""
+        case BuildTool.Ammonite =>
+          s"""import $$ivy.`$groupId::$module:$version`"""
     }
 }
