@@ -21,7 +21,4 @@ $ dexsearch -b sbt decline
 
 ## Demo
 
-https://user-images.githubusercontent.com/4439335/211099995-074eff36-3135-41c0-9f78-6f0e97e19a7b.mp4
-
-
-
+![2023-01-07 09 48 19](https://user-images.githubusercontent.com/1052965/211144583-27fd93c2-ad63-4386-9dc9-4d8e749ec185.gif)
