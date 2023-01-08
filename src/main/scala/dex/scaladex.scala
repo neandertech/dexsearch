@@ -5,12 +5,12 @@ import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.Thenable
 import cats.effect.IO
 
-object scaladex {
+object scaladex:
 
   val target = "JVM"
   val scalaVersion = "2.13"
 
-  def search(name: String): IO[js.Array[Project]] = {
+  def search(name: String): IO[js.Array[Project]] =
     val n = name.trim()
     ioFetch
       .get(
@@ -23,9 +23,8 @@ object scaladex {
             .exists(_.contains(n))
         }
       }
-  }
 
-  def project(org: String, repo: String): IO[ProjectDetails] = {
+  def project(org: String, repo: String): IO[ProjectDetails] =
     ioFetch
       .get(
         s"https://index.scala-lang.org/api/project?organization=$org&repository=$repo"
@@ -34,21 +33,19 @@ object scaladex {
       .map { json =>
         json.asInstanceOf[ProjectDetails]
       }
-  }
+  end project
 
-}
+end scaladex
 
 @js.native
-trait Project extends js.Object {
+trait Project extends js.Object:
   def organization: String = js.native
   def repository: String = js.native
   def artifacts: js.Array[String] = js.native
-}
 
 @js.native
-trait ProjectDetails extends js.Object {
+trait ProjectDetails extends js.Object:
   def artifacts: js.Array[String]
   def versions: js.Array[String]
   def groupId: String
   def version: String
-}

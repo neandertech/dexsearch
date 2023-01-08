@@ -9,29 +9,27 @@ import scala.scalajs.js.JSConverters._
 
 @js.native
 @JSImport("prompts", JSImport.Namespace)
-object prompts extends js.Any {
+object prompts extends js.Any:
   def default[T](x: js.Object): Promise[T] = js.native
-}
 
 def ioPrompt[T](x: js.Object): IO[T] =
   IO.fromPromise(IO(prompts.default(x)))
 
-def promptLibName: IO[LibName] = {
+def promptLibName: IO[LibName] =
   val libNameQuestion = new js.Object {
     val `type` = "text"
     val name = "libName"
     val message = "Which library ?"
   }
 
-  trait LibNameAnswer extends js.Object:
+  trait LibNameAnswer extends js.Object {
     val libName: String
+  }
 
-  ioPrompt[LibNameAnswer](libNameQuestion).map(answer =>
-    LibName(answer.libName)
-  )
-}
+  ioPrompt[LibNameAnswer](libNameQuestion).map(_.libName).map(LibName(_))
+end promptLibName
 
-def promptProject(project: js.Array[Project]): IO[Project] = {
+def promptProject(project: js.Array[Project]): IO[Project] =
   val projectQuestion = new js.Object {
     val `type` = "autocomplete"
     val name = "project"
@@ -44,13 +42,14 @@ def promptProject(project: js.Array[Project]): IO[Project] = {
     }
   }
 
-  trait ProjectAnswer extends js.Object:
+  trait ProjectAnswer extends js.Object {
     val project: Project
+  }
 
   ioPrompt[ProjectAnswer](projectQuestion).map(_.project)
-}
+end promptProject
 
-def promptModules(project: Project): IO[js.Array[String]] = {
+def promptModules(project: Project): IO[js.Array[String]] =
   val moduleQuestion = new js.Object {
     val `type` = "autocompleteMultiselect"
     val name = "modules"
@@ -63,13 +62,14 @@ def promptModules(project: Project): IO[js.Array[String]] = {
     }
   }
 
-  trait ProjectAnswer extends js.Object:
+  trait ProjectAnswer extends js.Object {
     val modules: js.Array[String]
+  }
 
   ioPrompt[ProjectAnswer](moduleQuestion).map(_.modules)
-}
+end promptModules
 
-def promptVersion(project: ProjectDetails): IO[String] = {
+def promptVersion(project: ProjectDetails): IO[String] =
   val versionQuestion = new js.Object {
     val `type` = "autocomplete"
     val name = "version"
@@ -86,9 +86,9 @@ def promptVersion(project: ProjectDetails): IO[String] = {
     val version: String
 
   ioPrompt[VersionAnswer](versionQuestion).map(_.version)
-}
+end promptVersion
 
-def promptBuildTool: IO[BuildTool] = {
+def promptBuildTool: IO[BuildTool] =
   val versionQuestion = new js.Object {
     val `type` = "select"
     val name = "buildTool"
@@ -101,8 +101,9 @@ def promptBuildTool: IO[BuildTool] = {
     }.toJSArray
   }
 
-  trait VersionAnswer extends js.Object:
+  trait VersionAnswer extends js.Object {
     val buildTool: BuildTool
+  }
 
   ioPrompt[VersionAnswer](versionQuestion).map(_.buildTool)
-}
+end promptBuildTool

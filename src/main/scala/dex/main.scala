@@ -18,11 +18,13 @@ import cats.effect.IO
 import cats.effect.ExitCode
 
 object Main
-    extends CommandIOApp("dex", "searches scaladex for Scala libraries") {
+    extends CommandIOApp("dex", "searches scaladex for Scala libraries"):
 
-  def main = {
-    (BuildTool.opt, LibName.argument).mapN { (maybeBuildTool, maybeLibName) =>
-      for {
+  val doneMessage = "Dependencies were copied to your clipboard, ready to paste"
+
+  def main = (BuildTool.opt, LibName.argument).mapN {
+    (maybeBuildTool, maybeLibName) =>
+      for
         libName <- maybeLibName.map(IO.pure(_)).getOrElse(promptLibName)
         projects <- scaladex.search(libName.value)
         project <- promptProject(projects)
@@ -32,20 +34,17 @@ object Main
         buildTool <- maybeBuildTool.map(IO.pure(_)).getOrElse(promptBuildTool)
         content = format(buildTool, details.groupId, modules, version)
         _ <- copyToClipboard(content)
-        _ <- IO.println(
-          "Dependencies were copied to your clipboard, ready to paste"
-        )
-      } yield ExitCode(0)
-    }
+        _ <- IO.println(doneMessage)
+      yield ExitCode(0)
   }
+  end main
 
   def format(
       buildTool: BuildTool,
       groupId: String,
       modules: js.Array[String],
       version: String
-  ): List[String] = modules.toList
-    .map { case module =>
+  ): List[String] = modules.toList.map { case module =>
       buildTool match
         case BuildTool.SBT   => s""""$groupId" %% "$module" % "$version""""
         case BuildTool.Mill  => s"""ivy"$groupId::$module:$version""""
@@ -55,4 +54,5 @@ object Main
         case BuildTool.Ammonite =>
           s"""import $$ivy.`$groupId::$module:$version`"""
     }
-}
+
+end Main
