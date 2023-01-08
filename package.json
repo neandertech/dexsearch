@@ -1,6 +1,8 @@
 {
+  "type": "module",
   "dependencies": {
-    "node-fetch": "^2.6.1",
+    "clipboardy": "^3.0.0",
+    "node-fetch": "^2.6.7",
     "prompts": "^2.4.2"
   }
 }

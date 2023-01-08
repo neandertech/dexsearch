@@ -13,11 +13,10 @@ libraryDependencies ++= Seq(
 
 // This is an application with a main method
 scalaJSUseMainModuleInitializer := true
-scalaJSLinkerConfig ~= (_
-  /* disabled because it somehow triggers many warnings */
-  .withSourceMap(false)
-  .withModuleKind(ModuleKind.CommonJSModule))
-
+Compile / scalaJSLinkerConfig := {
+  val c = scalaJSLinkerConfig.value
+  c.withModuleKind(ModuleKind.ESModule)
+}
 licenses := Seq(License.Apache2)
 
 npmPackageAuthor := "Neandertech"
@@ -28,6 +27,7 @@ npmPackageBinaryEnable := true
 npmPackageDependencies ++= {
   Seq(
     "node-fetch" -> "^2.6.1",
-    "prompts" -> "^2.4.2"
+    "prompts" -> "^2.4.2",
+    "clipboardy" -> "^3.0.0"
   )
 }

@@ -1,6 +1,12 @@
 package dex
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
+
+// @main
+def main() = println(util.inspect(prompts.default))
+
+import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.util.Success
 import scala.util.Failure

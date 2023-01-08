@@ -8,11 +8,13 @@ import cats.effect.IO
 import scala.scalajs.js.JSConverters._
 
 @js.native
-@JSImport("prompts", "prompt")
-def prompts[T](x: js.Object): Promise[T] = js.native
+@JSImport("prompts", JSImport.Namespace)
+object prompts extends js.Any {
+  def default[T](x: js.Object): Promise[T] = js.native
+}
 
 def ioPrompt[T](x: js.Object): IO[T] =
-  IO.fromPromise(IO(prompts(x)))
+  IO.fromPromise(IO(prompts.default(x)))
 
 def promptLibName: IO[LibName] = {
   val libNameQuestion = new js.Object {
