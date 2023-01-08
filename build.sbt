@@ -3,7 +3,7 @@ enablePlugins(ScalaJSPlugin)
 enablePlugins(NpmPackagePlugin)
 
 name := "dexsearch"
-version := "0.1.4"
+version := "0.1.5"
 
 scalaVersion := "3.2.1" // or any other Scala version >= 2.11.12
 
@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
 scalaJSUseMainModuleInitializer := true
 Compile / scalaJSLinkerConfig := {
   val c = scalaJSLinkerConfig.value
-  c.withModuleKind(ModuleKind.ESModule)
+  c.withModuleKind(ModuleKind.ESModule).withJSHeader("#!/usr/bin/env node\n")
 }
 licenses := Seq(License.Apache2)
 
