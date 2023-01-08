@@ -3,7 +3,7 @@ enablePlugins(ScalaJSPlugin)
 enablePlugins(NpmPackagePlugin)
 
 name := "dexsearch"
-version := "0.1.3"
+version := "0.1.4"
 
 scalaVersion := "3.2.1" // or any other Scala version >= 2.11.12
 
