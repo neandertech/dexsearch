@@ -15,7 +15,7 @@ npm install dexsearch -g
 ```bash
 $ dexsearch
 $ dexsearch --help
-$ dexsearch --built-tool mill fs2
+$ dexsearch --build-tool mill fs2
 $ dexsearch -b sbt decline
 ```
 
