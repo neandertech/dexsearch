@@ -14,6 +14,7 @@ import com.monovore.decline.effect.CommandIOApp
 import cats.effect.IO
 import cats.effect.ExitCode
 import cue4s.catseffect.PromptsIO
+import cue4s.CompletionError
 
 object Main
     extends CommandIOApp("dex", "searches scaladex for Scala libraries"):
@@ -22,20 +23,31 @@ object Main
 
   def main = (BuildTool.opt, LibName.argument).mapN {
     (maybeBuildTool, maybeLibName) =>
-      PromptsIO().use: 
-        prompts =>
+      PromptsIO()
+        .use: prompts =>
           for
-            libName <- maybeLibName.map(IO.pure(_)).getOrElse(promptLibName(prompts))
+            libName <- maybeLibName
+              .map(IO.pure(_))
+              .getOrElse(promptLibName(prompts))
             projects <- scaladex.search(libName.value)
             project <- promptProject(prompts, projects)
             modules <- promptModules(prompts, project)
-            details <- scaladex.project(project.organization, project.repository)
+            details <- scaladex.project(
+              project.organization,
+              project.repository
+            )
             version <- promptVersion(prompts, details)
-            buildTool <- maybeBuildTool.map(IO.pure(_)).getOrElse(promptBuildTool(prompts))
+            buildTool <- maybeBuildTool
+              .map(IO.pure(_))
+              .getOrElse(promptBuildTool(prompts))
             content = format(buildTool, details.groupId, modules, version)
             _ <- copyToClipboard(content)
             _ <- IO.println(doneMessage)
           yield ExitCode(0)
+        .recoverWith:
+          case CompletionError.Interrupted =>
+            IO.println("cancelled").as(ExitCode.Error)
+          case CompletionError.Error(msg) => IO.println(msg).as(ExitCode.Error)
   }
   end main
 

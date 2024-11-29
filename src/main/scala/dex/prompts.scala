@@ -24,11 +24,13 @@ def promptProject(prompts: PromptsIO, project: js.Array[Project]): IO[Project] =
       title -> p
     .toMap
 
-  prompts
-    .io(Prompt.SingleChoice("From which repo?", mapping.keySet.toList.sorted))
-    .map(_.toEither)
-    .flatMap(IO.fromEither)
-    .map(mapping(_))
+  if mapping.isEmpty then IO.raiseError(CompletionError.Error("no repos found"))
+  else
+    prompts
+      .io(Prompt.SingleChoice("From which repo?", mapping.keySet.toList.sorted))
+      .map(_.toEither)
+      .flatMap(IO.fromEither)
+      .map(mapping(_))
 end promptProject
 
 def promptModules(prompts: PromptsIO, project: Project): IO[js.Array[String]] =
