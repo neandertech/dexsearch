@@ -5,10 +5,11 @@ enablePlugins(NpmPackagePlugin)
 name := "dexsearch"
 version := "0.1.5"
 
-scalaVersion := "3.2.1" // or any other Scala version >= 2.11.12
+scalaVersion := "3.3.4" // or any other Scala version >= 2.11.12
 
 libraryDependencies ++= Seq(
-  "com.monovore" %%% "decline-effect" % "2.4.1"
+  "com.monovore" %%% "decline-effect" % "2.4.1",
+  "tech.neander" %%% "cue4s-cats-effect" % "0.0.3"
 )
 
 // This is an application with a main method
@@ -27,7 +28,6 @@ npmPackageBinaryEnable := true
 npmPackageDependencies ++= {
   Seq(
     "node-fetch" -> "^2.6.1",
-    "prompts" -> "^2.4.2",
     "clipboardy" -> "^3.0.0"
   )
 }
