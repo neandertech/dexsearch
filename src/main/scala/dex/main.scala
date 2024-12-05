@@ -50,7 +50,7 @@ object Main
         case BuildTool.Mill  => s"""ivy"$groupId::$module:$version""""
         case BuildTool.Bleep => s"""$groupId::$module:$version"""
         case BuildTool.ScalaCLI =>
-          s"""//> using lib "$groupId::$module:$version""""
+          s"""//> using dep "$groupId::$module:$version""""
         case BuildTool.Ammonite =>
           s"""import $$ivy.`$groupId::$module:$version`"""
     }
