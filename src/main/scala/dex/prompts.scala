@@ -10,7 +10,7 @@ import cue4s.*, catseffect.PromptsIO
 
 def promptLibName(prompts: PromptsIO): IO[LibName] =
   prompts
-    .io(Prompt.Input("Which library?"))
+    .text("Which library?")
     .map(_.toEither)
     .flatMap(IO.fromEither)
     .map(LibName(_))
@@ -27,7 +27,7 @@ def promptProject(prompts: PromptsIO, project: js.Array[Project]): IO[Project] =
   if mapping.isEmpty then IO.raiseError(CompletionError.Error("no repos found"))
   else
     prompts
-      .io(Prompt.SingleChoice("From which repo?", mapping.keySet.toList.sorted))
+      .singleChoice("From which repo?", mapping.keySet.toList.sorted)
       .map(_.toEither)
       .flatMap(IO.fromEither)
       .map(mapping(_))
@@ -37,7 +37,7 @@ def promptModules(prompts: PromptsIO, project: Project): IO[js.Array[String]] =
   val choices = project.artifacts.toList
 
   prompts
-    .io(Prompt.MultipleChoice.withNoneSelected("Which modules?", choices))
+    .multiChoiceNoneSelected("Which modules?", choices)
     .map(_.toEither)
     .flatMap(IO.fromEither)
     .map(_.toJSArray)
@@ -45,18 +45,16 @@ end promptModules
 
 def promptVersion(prompts: PromptsIO, project: ProjectDetails): IO[String] =
   prompts
-    .io(Prompt.SingleChoice("Which version?", project.versions.toList))
+    .singleChoice("Which version?", project.versions.toList)
     .map(_.toEither)
     .flatMap(IO.fromEither)
 end promptVersion
 
 def promptBuildTool(prompts: PromptsIO): IO[BuildTool] =
   prompts
-    .io(
-      Prompt.SingleChoice(
-        "Which build tool?",
-        BuildTool.values.map(_.toString).toList
-      )
+    .singleChoice(
+      "Which build tool?",
+      BuildTool.values.map(_.toString).toList
     )
     .map(_.toEither)
     .flatMap(IO.fromEither)

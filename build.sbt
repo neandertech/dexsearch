@@ -9,7 +9,7 @@ scalaVersion := "3.3.4" // or any other Scala version >= 2.11.12
 
 libraryDependencies ++= Seq(
   "com.monovore" %%% "decline-effect" % "2.4.1",
-  "tech.neander" %%% "cue4s-cats-effect" % "0.0.3"
+  "tech.neander" %%% "cue4s-cats-effect" % "0.0.6"
 )
 
 // This is an application with a main method

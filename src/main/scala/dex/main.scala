@@ -23,7 +23,7 @@ object Main
 
   def main = (BuildTool.opt, LibName.argument).mapN {
     (maybeBuildTool, maybeLibName) =>
-      PromptsIO()
+      PromptsIO.make
         .use: prompts =>
           for
             libName <- maybeLibName
