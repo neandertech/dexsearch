@@ -1,11 +1,6 @@
 package dex
 
-import scala.scalajs.js
-import scala.scalajs.js.annotation.JSImport
-import scala.scalajs.js.Promise
-import scala.scalajs.js.Thenable
 import cats.effect.IO
-import scala.scalajs.js.JSConverters._
 import cue4s.*, catseffect.PromptsIO
 
 def promptLibName(prompts: PromptsIO): IO[LibName] =
@@ -15,7 +10,7 @@ def promptLibName(prompts: PromptsIO): IO[LibName] =
     .flatMap(IO.fromEither)
     .map(LibName(_))
 
-def promptProject(prompts: PromptsIO, project: js.Array[Project]): IO[Project] =
+def promptProject(prompts: PromptsIO, project: Array[Project]): IO[Project] =
   val mapping = project.toList
     .map: p =>
       val title = s"${p.repository} from ${p.organization}"
@@ -33,14 +28,14 @@ def promptProject(prompts: PromptsIO, project: js.Array[Project]): IO[Project] =
       .map(mapping(_))
 end promptProject
 
-def promptModules(prompts: PromptsIO, project: Project): IO[js.Array[String]] =
+def promptModules(prompts: PromptsIO, project: Project): IO[Array[String]] =
   val choices = project.artifacts.toList
 
   prompts
     .multiChoiceNoneSelected("Which modules?", choices)
     .map(_.toEither)
     .flatMap(IO.fromEither)
-    .map(_.toJSArray)
+    .map(_.toArray)
 end promptModules
 
 def promptVersion(prompts: PromptsIO, project: ProjectDetails): IO[String] =

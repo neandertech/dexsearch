@@ -1,10 +1,5 @@
 package dex
 
-import scala.scalajs.js
-import scala.scalajs.js.annotation.JSImport
-
-import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
 import scala.util.Success
 import scala.util.Failure
 import com.monovore.decline.CommandApp
@@ -23,16 +18,17 @@ object Main
 
   def main = (BuildTool.opt, LibName.argument).mapN {
     (maybeBuildTool, maybeLibName) =>
+      Clipboard.copyToClipboard(Seq("hello", "poopoo")) *>
       PromptsIO.make
         .use: prompts =>
           for
             libName <- maybeLibName
               .map(IO.pure(_))
               .getOrElse(promptLibName(prompts))
-            projects <- scaladex.search(libName.value)
+            projects <- Scaladex.search(libName.value)
             project <- promptProject(prompts, projects)
             modules <- promptModules(prompts, project)
-            details <- scaladex.project(
+            details <- Scaladex.project(
               project.organization,
               project.repository
             )
@@ -41,7 +37,7 @@ object Main
               .map(IO.pure(_))
               .getOrElse(promptBuildTool(prompts))
             content = format(buildTool, details.groupId, modules, version)
-            _ <- copyToClipboard(content)
+            _ <- Clipboard.copyToClipboard(content)
             _ <- IO.println(doneMessage)
           yield ExitCode(0)
         .recoverWith:
@@ -54,7 +50,7 @@ object Main
   def format(
       buildTool: BuildTool,
       groupId: String,
-      modules: js.Array[String],
+      modules: Array[String],
       version: String
   ): List[String] = modules.toList.map { case module =>
     buildTool match
@@ -62,7 +58,7 @@ object Main
       case BuildTool.Mill  => s"""ivy"$groupId::$module:$version""""
       case BuildTool.Bleep => s"""$groupId::$module:$version"""
       case BuildTool.ScalaCLI =>
-        s"""//> using lib "$groupId::$module:$version""""
+        s"""//> using dep "$groupId::$module:$version""""
       case BuildTool.Ammonite =>
         s"""import $$ivy.`$groupId::$module:$version`"""
   }
