@@ -49,7 +49,7 @@ lazy val dexsearch = projectMatrix
   .settings(
     libraryDependencies ++= Seq(
       "com.monovore" %%% "decline-effect" % "2.6.2",
-      "tech.neander" %%% "cue4s-cats-effect" % "dev"
+      "tech.neander" %%% "cue4s-cats-effect" % "0.0.13"
     )
   )
 
