@@ -67,6 +67,7 @@ jobs:
 
       - name: Build the binary
         run: |
+          sudo apt-get install libcurl-dev
           sbt buildBinaryPlatformRelease
 
       - name: Upload artifacts
