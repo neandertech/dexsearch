@@ -1,3 +1,6 @@
 // addSbtPlugin("org.scalablytyped.converter" % "sbt-converter" % "1.0.0-beta40")
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.12.0")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.22.0")
+addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.12")
 addSbtPlugin("io.chrisdavenport" % "sbt-npm-package" % "0.1.2")
+addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.11.0")
+addSbtPlugin("com.indoorvivants" % "sbt-forge-native-binary" % "0.2.1")
